@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { postsContext } from "../contexts/PostsContexts";
 import PostCard from "../components/PostCard";
 import DeleteModal from "../components/DeleteModal";
@@ -8,18 +7,7 @@ const customApiUrl = import.meta.env.VITE_API_URL;
 export default function PostIndex() {
   const categories = ["HTML", "CSS", "JS"];
 
-  const { posts: articles, getArticles } = postsContext();
-
-  // ^ DESTROY
-  const fetchDestroyArticle = (id) => {
-    fetch(customApiUrl + id, {
-      method: "DELETE",
-    })
-      .then((res) => res)
-      .then((data) => {
-        getArticles();
-      });
-  };
+  const { posts: articles, getArticles, deleteArticle } = postsContext();
 
   return (
     <div className="container py-5">
@@ -49,7 +37,7 @@ export default function PostIndex() {
           key={article.id}
           id={article.id}
           title={article.title}
-          onClick={fetchDestroyArticle}
+          onClick={deleteArticle}
         />
       ))}
     </div>

@@ -13,9 +13,20 @@ export const PostsContextProvider = ({ children }) => {
       });
   };
 
+  const fetchDestroyArticle = (id) => {
+    fetch(customApiUrl + id, {
+      method: "DELETE",
+    })
+      .then((res) => res)
+      .then((data) => {
+        fetchPosts();
+      });
+  };
+
   const [postsData, setPostsData] = useState({
     posts: [],
     getArticles: fetchPosts,
+    deleteArticle: fetchDestroyArticle,
   });
 
   useEffect(() => {
