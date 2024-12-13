@@ -5,23 +5,22 @@ const customApiUrl = import.meta.env.VITE_API_URL;
 const PostsContext = createContext();
 
 export const PostsContextProvider = ({ children }) => {
-  //   const fetchPosts = () => {
-  //     fetch(customApiUrl)
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setPostsData(data.filteredPosts);
-  //       });
-  //   };
+  const fetchPosts = () => {
+    fetch(customApiUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        setPostsData({ ...postsData, posts: data.filteredPosts });
+      });
+  };
 
-  const postsData = [
-    {
-      title: "Articolo 1",
-    },
-  ];
+  const [postsData, setPostsData] = useState({
+    posts: [],
+    getArticles: fetchPosts,
+  });
 
-  //   useEffect(() => {
-  //     fetchPosts();
-  //   }, []);
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   return (
     <PostsContext.Provider value={postsData}>{children}</PostsContext.Provider>

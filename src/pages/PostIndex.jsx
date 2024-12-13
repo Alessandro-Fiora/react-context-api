@@ -8,32 +8,18 @@ const customApiUrl = import.meta.env.VITE_API_URL;
 export default function PostIndex() {
   const categories = ["HTML", "CSS", "JS"];
 
-  // const [articles, setArticles] = useState([]);
-  const articles = postsContext();
+  const { posts: articles, getArticles } = postsContext();
 
-  // ^ INDEX
-  // const fetchArticles = () => {
-  //   fetch(customApiUrl)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setArticles(data.filteredPosts);
-  //     });
-  // };
-
-  // // ^ DESTROY
-  // const fetchDestroyArticle = (id) => {
-  //   fetch(customApiUrl + id, {
-  //     method: "DELETE",
-  //   })
-  //     .then((res) => res)
-  //     .then((data) => {
-  //       fetchArticles();
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   fetchArticles();
-  // }, []);
+  // ^ DESTROY
+  const fetchDestroyArticle = (id) => {
+    fetch(customApiUrl + id, {
+      method: "DELETE",
+    })
+      .then((res) => res)
+      .then((data) => {
+        getArticles();
+      });
+  };
 
   return (
     <div className="container py-5">
@@ -63,7 +49,7 @@ export default function PostIndex() {
           key={article.id}
           id={article.id}
           title={article.title}
-          // onClick={fetchDestroyArticle}
+          onClick={fetchDestroyArticle}
         />
       ))}
     </div>
