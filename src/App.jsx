@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { PostsContextProvider } from "./contexts/PostsContexts";
 
 // layout
 import DefaultLayout from "./layouts/DefaultLayout";
@@ -12,17 +13,19 @@ import PostShow from "./pages/PostShow";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route Component={DefaultLayout}>
-          <Route index Component={HomePage} />
-          <Route path="/about" Component={OurTeamPage} />
-          <Route path="/posts" Component={PostIndex} />
-          <Route path="/posts/:id" Component={PostShow} />
-          <Route path="*" Component={NotFoundPage} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <PostsContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route Component={DefaultLayout}>
+            <Route index Component={HomePage} />
+            <Route path="/about" Component={OurTeamPage} />
+            <Route path="/posts" Component={PostIndex} />
+            <Route path="/posts/:id" Component={PostShow} />
+            <Route path="*" Component={NotFoundPage} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </PostsContextProvider>
   );
 }
 

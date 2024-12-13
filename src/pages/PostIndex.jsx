@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { postsContext } from "../contexts/PostsContexts";
 import PostCard from "../components/PostCard";
 import DeleteModal from "../components/DeleteModal";
 
@@ -7,31 +8,32 @@ const customApiUrl = import.meta.env.VITE_API_URL;
 export default function PostIndex() {
   const categories = ["HTML", "CSS", "JS"];
 
-  const [articles, setArticles] = useState([]);
+  // const [articles, setArticles] = useState([]);
+  const articles = postsContext();
 
   // ^ INDEX
-  const fetchArticles = () => {
-    fetch(customApiUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        setArticles(data.filteredPosts);
-      });
-  };
+  // const fetchArticles = () => {
+  //   fetch(customApiUrl)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setArticles(data.filteredPosts);
+  //     });
+  // };
 
-  // ^ DESTROY
-  const fetchDestroyArticle = (id) => {
-    fetch(customApiUrl + id, {
-      method: "DELETE",
-    })
-      .then((res) => res)
-      .then((data) => {
-        fetchArticles();
-      });
-  };
+  // // ^ DESTROY
+  // const fetchDestroyArticle = (id) => {
+  //   fetch(customApiUrl + id, {
+  //     method: "DELETE",
+  //   })
+  //     .then((res) => res)
+  //     .then((data) => {
+  //       fetchArticles();
+  //     });
+  // };
 
-  useEffect(() => {
-    fetchArticles();
-  }, []);
+  // useEffect(() => {
+  //   fetchArticles();
+  // }, []);
 
   return (
     <div className="container py-5">
@@ -39,17 +41,19 @@ export default function PostIndex() {
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         {/* CARDS FOR POSTS */}
 
-        {articles.map(
-          (article) =>
-            article.title && (
-              <PostCard
-                key={article.id}
-                id={article.id}
-                title={article.title}
-                img={article.img}
-              />
+        {articles
+          ? articles.map(
+              (article) =>
+                article.title && (
+                  <PostCard
+                    key={article.id}
+                    id={article.id}
+                    title={article.title}
+                    img={article.img}
+                  />
+                )
             )
-        )}
+          : "niente articoli"}
       </div>
 
       {/* MODALS TO DELETE ARTICLES */}
@@ -59,7 +63,7 @@ export default function PostIndex() {
           key={article.id}
           id={article.id}
           title={article.title}
-          onClick={fetchDestroyArticle}
+          // onClick={fetchDestroyArticle}
         />
       ))}
     </div>
